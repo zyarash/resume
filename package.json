@@ -1,0 +1,15 @@
+{
+  "name": "resume",
+  "author": "zyshara",
+  "version": "1.0.0",
+  "description": "zyshara's resume ╰(◕ᗜ◕)╯",
+  "main": "populate.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zyshara/resume.git"
+  },
+  "dependencies": {
+    "node-jsdom": "^3.1.5",
+    "node-sass": "^4.4.0"
+  }
+}

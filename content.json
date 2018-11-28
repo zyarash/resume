@@ -1,0 +1,50 @@
+{
+    "header": {
+        "name": "Jennifer Decker",
+        "email": "hi.imma.bear@gmail.com",
+        "location": "Mountain View, California",
+        "github": "http://github.com/zyara.sh",
+        "personal": "http://zyara.sh"
+    },
+    "sections": {
+        "education": [
+            {
+                "title": "California State University, Chico",
+                "date": "August 2012 - May 2017",
+                "summary": [
+                    "Achieved a bachelors in Computer Science",
+                    "3.5 Overall GPA",
+                    "President of Upsilon Pi Epsilon, Computer Science honors society for multiple semesters",
+                    "Studied abroad in Nagasaki, Japan during Spring 2016 semester"
+                 ]
+            }
+        ],
+        "work": [
+            {
+            }
+        ],
+        "tools": [
+            {
+                "title": "Favorite Tools",
+                "date": "",
+                "content": [
+                    "C++",
+                    "Python, Flask, Django, pip",
+                    "Javascript, NodeJS, npm, bower",
+                    "HTML, CSS, Scss, Sass",
+                    "Ruby, Rails",
+                    "Bash, zsh",
+                    "vim, tmux, vagrant, git",
+                    "I <3 Arch Linux!"
+                ]
+            },
+            {
+                "title": "",
+                "date": "",
+                "content": [
+                    "Check out my github and personal website for interesting stuff I've worked on =)"
+                ]
+            }
+        ]
+    }
+}
