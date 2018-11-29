@@ -1,7 +1,14 @@
+///////////////////////////////////////////
+// styles.scss
+//
+// SCSS styles for resume generation
+///////////////////////////////////////////
 
-* {
-    font-family: Menlo monospace;
-}
+
+$font-stack: Menlo, monospace;
+
+
+* { font-family: $font-stack; }
 
 main {
     margin:0 auto;
