@@ -1,103 +1,127 @@
-var fs = require('fs')
-var jsdom = require('node-jsdom');
-var sass = require('node-sass');
-var path = require('path');
-
-var outDir = 'out';
-var cssOutfile = 'styles.css';
-var scssFile = 'styles.scss';
-var htmlOutfile = 'resume.html';
-var jquerySrc  = 'http://code.jquery.com/jquery-1.5.min.js';
+///////////////////////////////////////////
+// populate.json
+//
+// Main resume generation entry point. Does
+// some cool stuff and junk :)
+///////////////////////////////////////////
+"use strict";
 
 
-function checkErr(err) {
-    if (err) {
-        throw(err);
+const fs = require('fs');
+const path = require('path');
+
+const { JSDOM } = require('jsdom');
+const sass = require('node-sass');
+
+const CONSTANTS = require('./config/constants.json');
+const resume = require('./config/content.json');
+
+
+class Resume {
+
+    _compileSCSS() {
+        // Compiles CSS from SCSS
+        fs.writeFileSync(
+            path.join(CONSTANTS.outDir, CONSTANTS.cssOutfile),
+            sass.renderSync({
+                file: CONSTANTS.scssInFile,
+            }).css.toString()
+        );
     }
-}
 
+    _buildHead() {
+        $('head').append(
+            $('<link>', {'rel': 'stylesheet', 'href': CONSTANTS.cssOutfile})
+        );
+    }
 
-function buildHeader(headerContent) {
-    var header = $('header');
+    _buildResumeHeader() {
+        let header = $('header');
+        let info = resume.header
 
-    var name = $('<div>', {id: 'name'});
-    name.append(headerContent.name.toUpperCase());
+        let name = $('<div>', {id: 'name'});
+        name.append(info.name.toUpperCase());
+                                                               
+        let contact = $('<div>', {id: 'contact'});
+        contact.append(info.phone.toUpperCase());
+        contact.append(' ● ');
+        contact.append(info.email.toUpperCase());
+        contact.append(' ● ');
+        contact.append(info.location.toUpperCase());
+                                                               
+        var github = $('<a href>');
+        github.append(resume.header.github.toUpperCase());
+        var personal = $('<a href>');
+        personal.append(resume.header.personal.toUpperCase());
 
-    var contact = $('<div>', {id: 'contact'});
-    contact.append(headerContent.phone.toUpperCase());
-    contact.append(' ● ');
-    contact.append(headerContent.email.toUpperCase());
-    contact.append(' ● ');
-    contact.append(headerContent.location.toUpperCase());
+        var websites = $('<div>', {id: 'websites'});
+        websites.append('GITHUB: ');
+        websites.append(github);
+        websites.append(' ● ');
+        websites.append('PERSONAL: ');
+        websites.append(personal);
+        
+        header.append(name);
+        header.append(contact);
+        header.append(websites);
+    }
 
-    var websites = $('<div>', {id: 'websites'});
-    var github = $('<a href>');
-    github.append(headerContent.github.toUpperCase());
-    var personal = $('<a href>');
-    personal.append(headerContent.personal.toUpperCase());
-    
-    header.append(name);
-    header.append(contact);
-    header.append(websites);
+    _buildBody() {
+        $('body').append($('<main>'))
+        $('main').append($('<header>'))
 
-    websites.append('GITHUB: ');
-    websites.append(github);
-    websites.append(' ● ');
-    websites.append('PERSONAL: ');
-    websites.append(personal);
-}
+        this._buildResumeHeader()
+        $('main').append('<div class="infobox"></div>');
+                                                         
+        $('main').append('<div class="infobox"></div>');
+        $('main').append('<div class="infobox"></div>');
+        $('main').append('<div class="infobox"></div>');
+        $('main').append('<div class="infobox"></div>');
+                                                         
+        $('main').append('<div class="infobox"></div>');
+        $('main').append('<div class="infobox"></div>');
+        $('main').append('<div class="infobox"></div>');
+        $('main').append('<div class="infobox"></div>');
+                                                         
+        $('main').append('<div class="infobox"></div>');
+        $('main').append('<div class="infobox"></div>');
+        $('main').append('<div class="infobox"></div>');
+        $('main').append('<div class="infobox"></div>');
+                                                         
+        $('main').append('<div class="infobox"></div>');
+        $('main').append('<div class="infobox"></div>');
+        $('main').append('<div class="infobox"></div>');
+    }
 
+    _writeHTMLOut() {
+        // Write generated HTML to disk
+        fs.writeFileSync(
+            path.join(CONSTANTS.outDir, CONSTANTS.htmlOutfile),
+            $('html').html(),
+        );
+    }
 
-function buildResume(content) {
-    $('head').append(
-        $('<link>', {'rel': 'stylesheet', 'href': cssOutfile})
-    );
-    $('body').append('<main></main>');
-    $('main').append('<header></header>');
+    build() {
+        console.log('Building resume...');
+        this._compileSCSS()
+        this._buildHead()
+        this._buildBody()
+        this._writeHTMLOut()
+        console.log('Build successful!');
+    }
 
-    buildHeader(content.header);
-    $('main').append('<div class="infobox"></div>');
-
-    $('main').append('<div class="infobox"></div>');
-    $('main').append('<div class="infobox"></div>');
-    $('main').append('<div class="infobox"></div>');
-    $('main').append('<div class="infobox"></div>');
-
-    $('main').append('<div class="infobox"></div>');
-    $('main').append('<div class="infobox"></div>');
-    $('main').append('<div class="infobox"></div>');
-    $('main').append('<div class="infobox"></div>');
-
-    $('main').append('<div class="infobox"></div>');
-    $('main').append('<div class="infobox"></div>');
-    $('main').append('<div class="infobox"></div>');
-    $('main').append('<div class="infobox"></div>');
-
-    $('main').append('<div class="infobox"></div>');
-    $('main').append('<div class="infobox"></div>');
-    $('main').append('<div class="infobox"></div>');
-
-    return '<html>' + $('html').html() + '</html>';
 }
 
 
 function build() {
-    jsdom.env('', [jquerySrc], function (err, window) {
-        checkErr(err);
 
-        global.$ = window.$;
+    JSDOM.fromFile(CONSTANTS.htmlInFile, {}).then(dom => {
+        global.$ = require('jquery')(dom.window);
 
-        var css = sass.renderSync({
-            file: scssFile,
-        }).css.toString();
-        fs.writeFileSync(path.join(outDir, cssOutfile), css);
-
-        var content = require('./content.json');
-
-        var html = buildResume(content);
-        fs.writeFileSync(path.join(outDir, htmlOutfile), html);
-        console.log('Build successful');
+        var resume = new Resume();
+        resume.build()
     });
+
 }
 
 build();

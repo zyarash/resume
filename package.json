@@ -6,10 +6,11 @@
   "main": "populate.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zyshara/resume.git"
+    "url": "https://github.com/zyarash/resume.git"
   },
   "dependencies": {
-    "node-jsdom": "^3.1.5",
-    "node-sass": "^4.4.0"
+    "jquery": "latest",
+    "jsdom": "latest",
+    "node-sass": "latest"
   }
 }

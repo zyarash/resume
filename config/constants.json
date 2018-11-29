@@ -1,0 +1,11 @@
+{
+  "outDir": "out",
+
+  "cssOutfile": "styles.css",
+
+  "htmlOutfile": "resume.html",
+
+  "scssInFile": "assets/styles.scss",
+
+  "htmlInFile": "assets/resume.html"
+}
